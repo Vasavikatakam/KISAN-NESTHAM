@@ -1,0 +1,79 @@
+
+
+<div id="map_canvas" style="height:700px;"></div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+
+google.charts.setOnLoadCallback(drawChart);
+
+
+function drawChart(marker,l) {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', l],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'Pizza sold @ '+
+                               marker.getPosition().toString(),
+                       'width':400,
+                       'height':150};
+                       
+        var node        = document.createElement('div'),
+            infoWindow  = new google.maps.InfoWindow(),
+            chart       = new google.visualization.PieChart(node);
+            
+            chart.draw(data, options);
+            infoWindow.setContent(node);
+            infoWindow.open(marker.getMap(),marker);
+      }
+
+
+function initialize() {
+
+    var mapOptions = {
+      center: new google.maps.LatLng(18.381979,77.872233),
+      zoom: 10,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+        mapOptions);
+
+    var marker1 = new google.maps.Marker({
+        position: mapOptions.center,
+        map: map,
+
+    });
+
+    var t=5
+    google.maps.event.addListener(marker1, 'click', function() {
+      drawChart(this,t);
+    });
+
+var marker2 = new google.maps.Marker({
+        position: {lat: 18.781849, lng: 77.872811},
+        map: map,
+
+    });
+var k=7;
+google.maps.event.addListener(marker2, 'click', function() {
+      drawChart(this,k);
+    });
+         
+  } 
+//google.load('visualization','1.0',{'packages':['corechart']});
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQUuaVeif3WTTX_8Y-kvHImqu3Cm_02Wo&callback=initialize">
+    </script>

@@ -1,0 +1,25 @@
+<div id="table">
+<center><table border=0>
+<thead>
+	<tr>
+		<td><b>ID</b></td>
+		<td><b>HOUSE_ID</b></td>
+		<td><b>NAME</b></td>
+		<td><b>LAT</b></td>
+		<td><b>LON</b></td>
+	</tr>
+</thead>
+<tbody>
+{% for k in list1 %}
+	<tr>
+		<td>{{k.id1}}</td>
+	<td>{{k.house_id}}</td>
+
+	<td>{{k.Name}}</td>
+	<td>{{k.lat}}</td>
+	<td>{{k.lon}}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div></center>

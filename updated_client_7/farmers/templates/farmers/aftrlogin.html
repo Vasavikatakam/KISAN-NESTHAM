@@ -1,0 +1,35 @@
+<html>
+<style>
+.button {
+    display: block;
+    width: 150px;
+    height: 25px;
+    background: lightgrey;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+}
+</style>
+
+<div id="cont1" align="center">
+	<a href='http://10.0.3.23:7777/farmers/sendtoall' id='btn' class="button" style="text-decoration:none;">Send To All</a></div>
+<script>
+var status="{{status}}"
+
+if(status=="ok")
+{
+document.getElementById("cont1").style.visibility="visible";
+	console.log(status);
+
+}
+if(status=="not ok")
+{
+	document.getElementById("cont1").style.visibility="hidden";
+	console.log(status);
+}
+</script>
+<body>
+
+</body></html>

@@ -1,0 +1,366 @@
+{{str1}}
+<!DOCTYPE html>
+<html>
+  <head>
+
+
+
+
+<div class= "updates" id="update">
+
+
+</div>
+<style>
+
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: lightgrey;
+    color: black;
+}
+
+.updates  {
+  
+  text-align :center ;
+  font-size : 30px;
+  
+  
+}
+.updates img {
+  
+
+}
+#map {
+        height: 100%;
+      }
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+</style>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polylines</title>
+
+   <!-- <style>
+      
+      #map {
+        height: 100%;
+      }
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>-->
+  </head>
+  <body>
+   
+    <div id="map"></div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+
+var p={{lst}}
+var p1={{lst1}}
+var p2="{{lst2}}"                //retrieving content from views
+var p3={{farea}}
+var p4="{{crop}}"
+var h_i="{{house_img}}"
+var hvideos="{{house_vid}}"
+console.log("p5")
+h_i=h_i.split(',')
+hvideos=hvideos.split(',')
+console.log(hvideos)
+
+console.log(h_i[0])
+console.log(p2);
+
+p6=p4.split(",");
+
+console.log(p6);
+
+var p5={{wl}}
+
+
+var str="{{ncrop}}"
+str=str.split("*")
+strm=str;
+console.log('vasavi')
+console.log(str)
+
+d1=new Array(str.length);
+d2=new Array();
+
+
+var count=0;
+
+for(i=0;i<str.length;i++)
+{
+  d=str[i].split(',');
+  d1[i]=parseInt(d[0]);
+}
+for(i=0;i<d1.length;i++)
+{
+
+  if(d2.length==0)
+  {
+    d2[0]=d1[i];
+  }
+  else
+  {
+    f1=0;
+  for(j=0;j<d2.length;j++)
+  {
+    if(d2[j]==d1[i])
+    {
+        f1=1;
+    }
+  }
+  if(f1==0)
+  {
+   
+     d2[d2.length]=d1[i];       //storing farmid's
+  }
+  }
+
+}
+
+console.log("vasd")
+console.log(d2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+var s=new Array();
+google.charts.load('current', {'packages':['corechart']});
+
+google.charts.setOnLoadCallback(drawChart);
+
+
+function drawChart(marker,map,list) {
+
+        
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+      
+data.addRows(list);  //this list contains crops and their areas
+
+        
+        var options = {'title':'crop shares',
+                       'width':400,
+                       'height':150};
+                       
+        var node        = document.createElement('div'),
+            infoWindow  = new google.maps.InfoWindow(),
+            chart       = new google.visualization.PieChart(node);
+            
+            chart.draw(data, options);
+            infoWindow.setContent(node);
+            infoWindow.open(map,marker);
+      }
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById("map"),
+	{
+          zoom: 16,
+          center: {lat: 18.381849, lng: 77.875811},
+	
+          
+
+	
+	 mapTypeId: 'satellite'
+        });
+
+   var r=(p1.length)/8;
+    var k=0;var z=0;
+    //drawing polygon for representing farm
+    for(i=0;i<r;i++)
+    {   
+        var flightPlanCoordinates = [
+          
+    
+    {lat: p1[0+k], lng: p1[1+k]},
+    {lat: p1[2+k], lng: p1[3+k]},
+    
+    {lat: p1[4+k], lng: p1[5+k]},
+    
+    {lat:p1[6+k],lng:p1[7+k]},
+    {lat: p1[0+k], lng: p1[1+k]},
+
+        ];
+
+  
+  var mean_lat=(p1[0+k]+p1[2+k]+p1[4+k]+p1[6+k])/4;
+  var mean_lon=(p1[1+k]+p1[3+k]+p1[5+k]+p1[7+k])/4;
+  
+  s[0+z]=p1[0+k];
+  s[1+z]=p1[1+k];
+  console.log(mean_lat);
+  console.log(mean_lon);     
+
+        var flightPath = new google.maps.Polygon({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: ' red',
+          strokeOpacity: 1,
+	  
+          fillColor: 'green',
+          strokeWeight: 1
+        
+
+        });
+        
+		
+
+	
+        flightPath.setMap(map);
+       
+ if(i==0)
+ {
+
+var m=d2[i];
+data1=new Array()
+var count=0;
+for(j=0;j<strm.length;j++)
+{
+  f=strm[j].split(',')
+  if(parseInt(f[0])==m)
+  {
+    data1[count]=new Array();                //storing crops grown in the farm in list in lists 
+    data1[count][0]=f[1];
+    data1[count][1]=parseFloat(f[2]);
+count=count+1;
+  }
+}
+
+
+
+  var before={lat: p1[0+k], lng:p1[1+k] };
+    
+var marker1 = new google.maps.Marker({
+        position: {lat: p1[0+k], lng:p1[1+k] },   
+        map: map,
+});
+
+beforedata=data1;
+google.maps.event.addListener(marker1, 'click', function() {   //displaying piechart in infowindow
+      drawChart(this,map,data1);
+    });
+}
+if(i==1)
+ {
+
+  var m=d2[i];
+data2=new Array()
+var count=0;
+for(j=0;j<strm.length;j++)
+{
+  f=strm[j].split(',')
+  if(parseInt(f[0])==m)
+  {
+    data2[count]=new Array();
+    data2[count][0]=f[1];
+    data2[count][1]=parseFloat(f[2]);
+count=count+1;
+  }
+}
+    
+var marker1 = new google.maps.Marker({
+        position: before,
+        map: map,
+});
+
+
+google.maps.event.addListener(marker1, 'click', function() {
+      drawChart(this,map,beforedata);
+    });
+var marker2 = new google.maps.Marker({
+        position: {lat: p1[0+k], lng:p1[1+k] },
+        map: map,
+
+    });
+
+google.maps.event.addListener(marker2, 'click', function() {
+      drawChart(this,map,data2);
+    });
+
+}
+ 
+
+
+
+       k=k+8;
+       z=z+2;
+     }
+     
+
+    
+    google.maps.event.addListener(marker1, 'click', function() {
+      drawChart(this);
+    });
+
+
+         
+     
+
+
+
+
+
+
+
+
+
+     
+  
+
+
+
+
+
+         
+ 
+
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQUuaVeif3WTTX_8Y-kvHImqu3Cm_02Wo&callback=initMap">
+    </script>
+  </body>
+
+
+</html>

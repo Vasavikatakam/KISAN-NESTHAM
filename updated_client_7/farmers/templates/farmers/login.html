@@ -1,0 +1,70 @@
+<div class="topnav" id="myTopnav">
+  <a href="http://127.0.0.1:8000/farmers/form">Home</a>
+  <a href="http://127.0.0.1:8000/farmers/familysize">Households</a>
+  <a href="http://127.0.0.1:8000/farmers/piechart">Crop Distribution</a>
+  <a href="http://127.0.0.1:8000/farmers/welldepth">Well depth view</a>
+  <a href="http://127.0.0.1:8000/farmers/annualincome">Family Income</a>
+  <a class="active" href="http://127.0.0.1:8000/farmers/sms">Sign Up</a>
+  <a href="http://127.0.0.1:8000/farmers/checking">Analytics</a>
+</div> 
+
+<div class= "updates" id="update">
+
+
+</div>
+<style>
+
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: lightgrey;
+    color: black;
+}
+
+.updates  {
+	
+	text-align :center ;
+	font-size : 30px;
+	
+	
+}
+.updates img {
+	
+
+}
+
+</style>
+
+
+
+
+
+<form action="{% url 'farmers:aftrlogin' %}" method="post">
+    {% csrf_token %}
+    <center>
+    {{ form.as_p }}
+
+
+    <input type="submit" value="Submit" /></center></body>
+    </html>

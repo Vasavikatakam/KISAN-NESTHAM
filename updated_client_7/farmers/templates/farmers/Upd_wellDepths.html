@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html>
+<div class="topnav" id="myTopnav">
+  <a href="http://10.0.3.23:7777/farmers/form">Home</a>
+  <a href="http://10.0.3.23:7777/farmers/allhouses">Households</a>
+  <a href="http://10.0.3.23:7777/farmers/piechart">Crop Distribution</a>
+  <a class="active" href="http://10.0.3.23:7777/farmers/welldepth">Well depth view</a>
+  <a href="http://10.0.3.23:7777/farmers/annualincome">Family Income</a>
+  <a href="http://10.0.3.23:7777/farmers/sms">Sign Up</a>
+  <a href="http://10.0.3.23:7777/farmers/checking">Analytics</a>
+</div> 
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Well depth</title>
+    <style>
+
+    .button {
+    display: block;
+    width: 150px;
+    height: 35px;
+    background: lightgrey;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+}
+    .topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: lightgrey;
+    color: black;
+}
+
+.updates  {
+  
+  text-align :center ;
+  font-size : 30px;
+  
+  
+}
+.updates img {
+  
+
+}
+
+    
+      #map {
+        height: 90%;
+      }
+     
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 50px 50px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: red;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 450px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color:#e7e7e7;
+  
+        position: absolute;
+        padding: 0 30px 0 13px;
+
+      border-style: solid;
+        border-color: black;
+        width: 100px;
+  height: 75px;
+  background: url(/media/well_det.png);
+      }
+  
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 500px;
+      }
+  
+    </style>
+  </head>
+  <body>
+  
+<br>
+<center><a style="text-decoration:none;" class="button" href="http://10.0.3.23:7777/farmers/wateryield">well depth and wateryield </a></center>
+
+
+ <center><p><h3>Visualisation of well depths</h3></p></center>
+
+    <div id="pac-input" align="right"></div>
+    <div id="map"></div>
+    
+    <script>
+
+
+     var p={{list1}};
+     var p1={{list2}};
+     console.log("info")         //taking content from views
+     console.log(p)
+     var object=new Array()
+     for(i=0;i<p[0].length;i++)
+     {
+      object[i]=new Array(4)
+     }
+      for(j=0;j<p[0].length;j++)
+      {
+      for(i=0;i<=3;i++)             //further processing storing lat,lon,depth in multidimensional array
+     {
+      object[j][i]=p[i][j]
+     }
+     }
+     var object1=new Array()
+     for(i=0;i<p1[0].length;i++)
+     {
+      object1[i]=new Array(2)
+     }
+      for(j=0;j<p1[0].length;j++)
+      {
+      for(i=0;i<=1;i++)
+     {
+      object1[j][i]=p1[i][j]
+     }
+     }
+     console.log('vas');
+     console.log(object);
+      
+
+      function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 18.381849, lng:77.875811},
+          zoom: 16,
+          mapTypeId: 'satellite'
+        });
+
+       
+       /* var lineSymbol = {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 7,
+	 
+          strokeColor: '#393',
+	
+	
+        };*/
+        
+        for(i=0;i<p[0].length;i++)
+        {
+          var r=(object[i][2])/2;
+          var r1=(object[i][2]/10);
+
+        //showing height using polyline 
+           markers = new google.maps.Marker({
+          position: {lat: object[i][0], lng: object[i][1]},
+          map: map,
+          Icon : {url:'/media/cylinder.png', scaledSize: new google.maps.Size(40+r1, 50+r)},
+
+        }); 
+
+          farmwindow= new google.maps.InfoWindow();
+        //displaying marker for polyline
+          farmString='<h3>'+'Depth:'+object[i][2]+' feet'+'</h3>'+'<h3>';
+
+        google.maps.event.addListener(markers,'mouseover', (function(markers,farmString,farmwindow){ 
+        return function() {
+           farmwindow.setContent(farmString);
+           farmwindow.open(map,markers);
+        };
+    })(markers,farmString,farmwindow));
+          //displaying info window on marker
+         google.maps.event.addListener(markers,'mouseout',(function(markers,farmString,farmwindow){ 
+          return function() {
+           farmwindow.close();
+        };
+    })(markers,farmString,farmwindow));
+
+
+
+        
+      }
+      var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
+  
+
+        
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+	}
+     
+      
+    </script>
+   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQUuaVeif3WTTX_8Y-kvHImqu3Cm_02Wo&libraries=places&callback=initAutocomplete"
+         async defer></script>
+    <br>
+    <center><a href="http://10.0.3.23:7777/farmers/wateryield">well depth and wateryield </a></center>
+
+  </body>
+</html>

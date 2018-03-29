@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<div class="topnav" id="myTopnav">
+  <a href="http://10.0.3.23:7777/farmers/form">Home</a>
+  <a href="http://10.0.3.23:7777/farmers/allhouses">Households</a>
+  <a href="http://10.0.3.23:7777/farmers/piechart">Crop Distribution</a>
+  <a href="http://10.0.3.23:7777/farmers/welldepth">Well depth view</a>
+  <a class="active" href="http://10.0.3.23:7777/farmers/annualincome">Family Income</a>
+  <a href="http://10.0.3.23:7777/farmers/sms">Sign Up</a>
+  <a href="http://10.0.3.23:7777/farmers/checking">Analytics</a>
+</div> 
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Circles</title>
+    <style>
+    .topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: lightgrey;
+    color: black;
+}
+
+.updates  {
+  
+  text-align :center ;
+  font-size : 30px;
+  
+  
+}
+.updates img {
+  
+
+}
+
+      
+      #map {
+        height: 100%;
+      }
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <center><p><h3>Visualisation of houses based on Annual Income</h3></p></center>
+    <div id="map"></div>
+    <script>
+      
+    
+      var h={{list1}}   //retrieving content from the views
+      
+      function initMap() {
+        // Create the map.
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 18,
+          center: {lat: 18.381849, lng: 77.875811},
+          mapTypeId: 'satellite'
+        });
+
+        // Construct the circle for each value in cityCircle.
+        // Note: We scale the area of the circle based on the familyincome 
+        for (i=0;i<h[0].length;i++) {
+          
+          var cityCircle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: map,
+            title:'House-id:'+h[0][i].toString()+" "+'Family Income:'+h[3][i].toString(),
+            center: {lat: h[1][i], lng: h[2][i]},
+            radius: (h[3][i]) /10000
+          });
+
+          //displaying family details when place mouse on the circle 
+           google.maps.event.addListener(cityCircle,'mouseover',function(){
+             this.getMap().getDiv().setAttribute('title',this.get('title'));});
+
+        google.maps.event.addListener(cityCircle,'mouseout',function(){
+             this.getMap().getDiv().removeAttribute('title');});
+        }
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQUuaVeif3WTTX_8Y-kvHImqu3Cm_02Wo&callback=initMap">
+    </script>
+  </body>
+</html>

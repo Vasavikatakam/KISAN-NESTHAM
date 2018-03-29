@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    <div id="map"></div>
+    <script>
+     var p={{totlst}};
+     console.log("info")
+     console.log(p)
+     var object=new Array()
+     for(i=0;i<p[0].length;i++)
+     {
+      object[i]=new Array(4)
+     }
+      for(j=0;j<p[0].length;j++)
+      {
+        for(i=0;i<4;i++)
+     {
+      object[j][i]=p[i][j]
+     }
+     }
+     console.log(object)
+      function initMap() {
+        
+        var uluru = {lat: 18.381877, lng:77.876175};
+       
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 25,
+          center: uluru,
+          mapTypeId:'satellite'
+        });
+        for(z=0;z<p[0].length;z++)
+        {
+        var pos={lat:object[z][1],lng:object[z][2]}
+        if(object[z][3]==2)
+        {
+          var icon1='http://maps.google.com/mapfiles/ms/icons/purple-dot.png'
+        }
+        else if(object[z][3]==3)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+        }
+        else if(object[z][3]==4)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/orange-dot.png'
+        }
+        else if(object[z][3]==5)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/pink-dot.png'
+        }
+        else if(object[z][3]==6)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        }
+        else if(object[z][3]==1)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+        }
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+        icon:icon1
+        });
+      }
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQUuaVeif3WTTX_8Y-kvHImqu3Cm_02Wo&callback=initMap">
+    </script>
+  </body>
+</html>

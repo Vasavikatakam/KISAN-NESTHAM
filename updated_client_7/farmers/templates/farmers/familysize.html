@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<div class="topnav" id="myTopnav">
+  <a href="http://10.0.3.23:7777/farmers/form">Home</a>
+  <a class="active" href="http://10.0.3.23:7777/farmers/allhouses">Households</a>
+  <a href="http://10.0.3.23:7777/farmers/piechart">Crop Distribution</a>
+  <a href="http://10.0.3.23:7777/farmers/welldepth">Well depth view</a>
+  <a href="http://10.0.3.23:7777/farmers/annualincome">Family Income</a>
+  <a href="http://10.0.3.23:7777/farmers/sms">Sign Up</a>
+  <a href="http://10.0.3.23:7777/farmers/checking">Analytics</a>
+</div> 
+<style>
+
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: lightgrey;
+    color: black;
+}
+
+.updates  {
+  
+  text-align :center ;
+  font-size : 30px;
+  
+  
+}
+.updates img {
+  
+
+}
+
+</style>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Places Searchbox</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 50px 50px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: red;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 450px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color:#e7e7e7;
+	
+        position: absolute;
+        padding: 0 30px 0 13px;
+
+    	border-style: solid;
+        border-color: black;
+        width: 250px;
+	height: 175px;
+	background: url(/media/ITS.png);
+      }
+	
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 500px;
+      }
+	
+    </style>
+  </head>
+  <body>
+    <center><p><h3>Grouping of houses based on family size</h3></p></center>
+    <div id="pac-input" align="right"></div>
+    <div id="map"></div>
+    <script>
+    var p={{totlst}};
+     console.log("info")    //retrieving content from views
+     console.log(p)
+     var object=new Array()
+     for(i=0;i<p[0].length;i++)
+     {
+      object[i]=new Array(4)
+     }
+      for(j=0;j<p[0].length;j++)   //processing storing info in object array
+      {
+        for(i=0;i<4;i++)
+     {
+      object[j][i]=p[i][j]
+     }
+     }
+     console.log(object)
+     
+      function initAutocomplete() {
+         var uluru = {lat: 18.381877, lng:77.876175};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: uluru,
+          zoom: 25,
+          mapTypeId:'satellite'
+        });
+        //placing different markers based on family size
+        for(z=0;z<p[0].length;z++)
+        {
+        var pos={lat:object[z][1],lng:object[z][2]}
+        
+        if(object[z][3]==2)
+        {
+          var icon1='http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        }
+        else if(object[z][3]==3)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        }
+        else if(object[z][3]==4)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/orange-dot.png'
+        }
+        else if(object[z][3]==5)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+        }
+        else if(object[z][3]==6)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+        }
+        else if(object[z][3]==1)
+        {
+         
+          var icon1='http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+        }
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+        icon:icon1
+        });
+      }
+
+
+
+
+
+
+
+
+        //this is for placing static image on google maps 
+        
+	var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
+	
+
+        
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+      
+      }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQUuaVeif3WTTX_8Y-kvHImqu3Cm_02Wo&libraries=places&callback=initAutocomplete"
+         async defer></script>
+  </body>
+</html>
